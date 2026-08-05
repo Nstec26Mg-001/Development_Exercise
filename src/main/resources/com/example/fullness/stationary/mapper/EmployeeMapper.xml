@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.fullness.stationary.mapper.EmployeeMapper">
+
+    <resultMap id="employeeResult" type="Employee">
+        <id property="id" column="employee_id" />
+        <result property="departmentId" column="department_id" />
+        <result property="name" column="employee_name" />
+        <result property="nameKana" column="employee_name_kana"/>
+        <association property="department" javaType="Department">
+            <id property="id" column="department_id" />
+            <result property="name" column="department_name" />
+        </association>
+        <association property="employeeAccount" javaType="EmployeeAccount">
+            <id property="id" column="employee_account_id" />
+            <result property="employeeId" column="employee_id" />
+            <result property="name" column="employee_account_name" />
+            <result property="password" column="employee_account_password" />
+        </association>
+    </resultMap>
+
+    <select id="selectAllWithDepartmentAndEmployeeAccount" resultMap="employeeResult">
+        <![CDATA[
+            select
+                employee.id employee_id
+                , employee.department_id
+                , employee.name employee_name
+                , employee.name_kana employee_name_kana
+                , department.name department_name
+                , employee_account.id employee_account_id
+                , employee_account.name employee_account_name
+                , employee_account.password employee_account_password 
+            from
+                employee 
+                inner join department 
+                    on employee.department_id = department.id 
+                left outer join employee_account 
+                    on employee.id = employee_account.employee_id
+            order by employee_id
+        ]]>
+    </select>
+
+    <select id="selectByIdWithDepartmentAndEmployeeAccount" resultMap="employeeResult">
+        <![CDATA[
+            select
+                employee.id employee_id
+                , employee.department_id
+                , employee.name employee_name
+                , employee.name_kana employee_name_kana
+                , department.name department_name
+                , employee_account.id employee_account_id
+                , employee_account.name employee_account_name
+                , employee_account.password employee_account_password 
+            from
+                employee 
+                inner join department 
+                    on employee.department_id = department.id 
+                left outer join employee_account 
+                    on employee.id = employee_account.employee_id
+            where
+                employee_account.id = #{id}
+        ]]>
+    </select>
+
+    <select id="selectNotHaveEmployeeAccount" resultMap="employeeResult">
+        <![CDATA[
+            select
+                employee.id employee_id
+                , employee.department_id
+                , employee.name employee_name
+                , employee.name_kana employee_name_kana
+                , department.name department_name
+                , employee_account.id employee_account_id
+                , employee_account.name employee_account_name
+                , employee_account.password employee_account_password 
+            from
+                employee 
+                inner join department 
+                    on employee.department_id = department.id 
+                left outer join employee_account 
+                    on employee.id = employee_account.employee_id
+            where
+                employee_account.id is null
+        ]]>
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.fullness.stationary.mapper.EmployeeAccountMapper">
+
+    <resultMap id="employeeAccountResult" type="EmployeeAccount">
+        <id property="id" column="employee_account_id" />
+        <result property="employeeId" column="employee_id" />
+        <result property="name" column="employee_account_name" />
+        <result property="password" column="employee_account_password" />
+    </resultMap>
+
+    <select id="selectAll" resultMap="employeeAccountResult">
+        <![CDATA[
+            select
+                employee_account.id employee_account_id
+                , employee_account.employee_id employee_id
+                , employee_account.name employee_account_name
+                , employee_account.password employee_account_password
+            from
+                employee_account
+        ]]>
+    </select>
+
+    <select id="selectByEmployeeAccountName" resultMap="employeeAccountResult">
+        <![CDATA[
+            select
+                employee_account.id employee_account_id
+                , employee_account.employee_id employee_id
+                , employee_account.name employee_account_name
+                , employee_account.password employee_account_password
+            from
+                employee_account
+            where
+                employee_account.name = #{employeeAccountName}
+        ]]>
+    </select>
+
+</mapper>
