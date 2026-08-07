@@ -5,25 +5,26 @@ import java.util.List;
 import com.example.fullness.stationary.entity.EmployeeAccount;
 
 public class EmployeeAccountMapperTestFactory {
-    
+
     private List<EmployeeAccount> employeeAccounts;
 
     public EmployeeAccountMapperTestFactory() {
         this.employeeAccounts = List.of(
-            new EmployeeAccount(
-                1,
-                1,
-                "yamada.t", 
-                "hashed_pass_yamada_123"),
-            new EmployeeAccount(
-                2, 
-                3, 
-                "suzuki.i", 
-                "hashed_pass_suzuki_789")
-        );
+                new EmployeeAccount(
+                        1,
+                        1,
+                        "yamada.t",
+                        "hashed_pass_yamada_123",
+                        null),
+                new EmployeeAccount(
+                        2,
+                        3,
+                        "suzuki.i",
+                        "hashed_pass_suzuki_789",
+                        null));
     }
-    
-    public List<EmployeeAccount> createEmployeeAccountList(){
+
+    public List<EmployeeAccount> createEmployeeAccountList() {
         return this.employeeAccounts;
     }
 
@@ -32,6 +33,6 @@ public class EmployeeAccountMapperTestFactory {
     }
 
     public EmployeeAccount createVoidEmployeeAccountEntity(int employeeId) {
-        return new EmployeeAccount(0, employeeId, null, null);
-    } 
+        return new EmployeeAccount(0, employeeId, null, null, null);
+    }
 }

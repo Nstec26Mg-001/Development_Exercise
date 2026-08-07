@@ -15,4 +15,6 @@ public class EmployeeAccount {
     private String name;
 
     private String password;
+
+    private Boolean enabled;
 }
