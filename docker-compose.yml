@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15
+    container_name: fullness-ec-db
+    environment:
+      POSTGRES_DB: fullness_ec
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d
+      - fullness-ec-data:/var/lib/postgresql/data
+
+volumes:
+  fullness-ec-data:

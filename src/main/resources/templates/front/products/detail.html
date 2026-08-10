@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name} + ' - フルネス文具'">商品詳細 - フルネス文具</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/front.css}">
+</head>
+<body>
+<div th:replace="~{front/fragments/layout :: header}"></div>
+
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5 text-center mb-3">
+            <img th:src="@{${product.imagePath}}" th:alt="${product.name}" class="img-fluid" style="max-height: 320px;">
+        </div>
+        <div class="col-md-5">
+            <h1 class="h3" th:text="${product.name}"></h1>
+            <p class="price fs-3" th:text="${product.price} + '円'"></p>
+
+            <div class="alert alert-warning" th:if="${product.stock == 0}">
+                現在この商品は在庫切れです
+            </div>
+
+            <form th:if="${product.stock > 0}" th:action="@{/products/detail/{id}(id=${product.id})}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">数量</label>
+                    <select name="quantity" class="form-select w-auto">
+                        <option th:each="i : ${#numbers.sequence(1, product.stock)}" th:value="${i}" th:text="${i}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-fs-solid">カートに入れる</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{front/fragments/layout :: footer}"></div>
+</body>
+</html>

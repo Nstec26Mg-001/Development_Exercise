@@ -16,17 +16,15 @@ public class SecurityConfig {
         //
         http
                 // アクセス制限の情報 ↓↓↓ここから
-                .authorizeHttpRequests(
-                        authz -> authz
-                                // permitAll -> Full access
-                                // authenticated -> 認証済み
-                                // denyAll -> すべて拒否
-                                // .requestMatchers("/public/**").permitAll()
-                                .requestMatchers("/", "/login").permitAll()
-                                // .requestMatchers("/menu", "/logout").authenticated()
-                                // .requestMatchers("/employee/**").authenticated()
-                                // anyRequest -> 上記以外
-                                .anyRequest().denyAll())
+                .authorizeHttpRequests(authz -> authz
+                        // permitAll -> Full access
+                        // authenticated -> 認証済み
+                        // denyAll -> すべて拒否
+                        .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
+                        .requestMatchers("/admin/login").permitAll().requestMatchers("/admin/**")
+                        .authenticated()
+                        // anyRequest -> 上記以外
+                        .anyRequest().denyAll())
                 // アクセス制限の情報 ↑↑↑ここまで
 
                 // ログインにかかわる情報 ↓↓↓ここから
@@ -34,19 +32,21 @@ public class SecurityConfig {
                         // ログイン時のPOST先URL
                         .loginProcessingUrl("/authenticate")
                         // ログイン画面表示URL
-                        .loginPage("/login")
+                        .loginPage("/admin/login")
+                        // ログインフォームのユーザー名パラメータ
+                        .usernameParameter("accountName")
                         // 認証成功時に表示するページURL
-                        .defaultSuccessUrl("/menu")
+                        .defaultSuccessUrl("/admin")
                         // 認証失敗時のリダイレクト先
-                        .failureUrl("/login").permitAll())
+                        .failureUrl("/admin/login?error").permitAll())
                 // ログインにかかわる情報 ↑↑↑ここまで
 
                 // ログアウトにかかわる情報 ↓↓↓ここから
                 .logout(logout -> logout
                         // ログアウト時のURL（POST先）
-                        .logoutUrl("/logout")
+                        .logoutUrl("/admin/logout")
                         // ログアウト成功時のリダイレクト先
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/admin/login")
                         // セッションを破棄するか否か
                         .invalidateHttpSession(true)
                         // 認証情報をクリアするか否か

@@ -58,7 +58,7 @@
                 left outer join employee_account 
                     on employee.id = employee_account.employee_id
             where
-                employee_account.id = #{id}
+                employee.id = #{id}
         ]]>
     </select>
 
