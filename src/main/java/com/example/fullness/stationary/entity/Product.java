@@ -7,12 +7,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeAccount {
+public class Product {
     private int id;
 
-    private int employeeId;
+    private int productCategoryId;
 
     private String name;
 
-    private String password;
+    private int price;
+
+    private String imageUrl;
+
+    private int deleteFlag;
+
+    private ProductCategory productCategory;
 }

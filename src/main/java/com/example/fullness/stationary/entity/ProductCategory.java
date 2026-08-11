@@ -1,5 +1,6 @@
 package com.example.fullness.stationary.entity;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeAccount {
+public class ProductCategory {
     private int id;
-
-    private int employeeId;
 
     private String name;
 
-    private String password;
+    private List<Product> products;
 }

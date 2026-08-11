@@ -1,11 +1,12 @@
 package com.example.fullness.stationary.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fullness.stationary.controller.form.EmployeeAccountRegisterForm;
 import com.example.fullness.stationary.entity.EmployeeAccount;
+import com.example.fullness.stationary.helper.EmployeeAccountHelper;
 import com.example.fullness.stationary.mapper.EmployeeAccountMapper;
 import com.example.fullness.stationary.service.EmployeeAccountService;
 
@@ -17,7 +18,7 @@ public class EmployeeAccountServiceImpl implements EmployeeAccountService {
     private EmployeeAccountMapper employeeAccountMapper;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private EmployeeAccountHelper employeeAccountHelper;
 
     @Override
     public boolean existsByName(String accountName) {
@@ -25,9 +26,8 @@ public class EmployeeAccountServiceImpl implements EmployeeAccountService {
     }
 
     @Override
-    public void register(EmployeeAccount employeeAccount) {
-        employeeAccount.setPassword(passwordEncoder.encode(employeeAccount.getPassword()));
-        employeeAccount.setEnabled(true);
-        employeeAccountMapper.insert(employeeAccount);
+    public void register(EmployeeAccountRegisterForm form) {
+        EmployeeAccount account = employeeAccountHelper.convertToEntity(form);
+        employeeAccountMapper.insert(account);
     }
 }

@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.fullness.stationary.controller.form.AccountRegisterForm;
+import com.example.fullness.stationary.controller.form.EmployeeAccountRegisterForm;
 import com.example.fullness.stationary.entity.Employee;
-import com.example.fullness.stationary.entity.EmployeeAccount;
-import com.example.fullness.stationary.mapper.EmployeeMapper;
 import com.example.fullness.stationary.service.EmployeeAccountService;
-
+import com.example.fullness.stationary.service.EmployeeService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -30,7 +28,7 @@ import jakarta.validation.Valid;
 public class AdminAccountController {
 
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private EmployeeService employeeService;
 
     @Autowired
     private EmployeeAccountService employeeAccountService;
@@ -38,14 +36,14 @@ public class AdminAccountController {
     @GetMapping("/form")
     public String form(Model model) {
         if (!model.containsAttribute("form")) {
-            model.addAttribute("form", new AccountRegisterForm());
+            model.addAttribute("form", new EmployeeAccountRegisterForm());
         }
-        model.addAttribute("employees", employeeMapper.selectNotHaveEmployeeAccount());
+        model.addAttribute("employees", employeeService.findWithoutAccount());
         return "admin/account/form";
     }
 
     @PostMapping("/form")
-    public String formSubmit(@Valid @ModelAttribute("form") AccountRegisterForm form,
+    public String formSubmit(@Valid @ModelAttribute("form") EmployeeAccountRegisterForm form,
             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // アノテーションバリデーション
@@ -67,8 +65,7 @@ public class AdminAccountController {
         }
 
         // 社員名をセット
-        Employee employee =
-                employeeMapper.selectByIdWithDepartmentAndEmployeeAccount(form.getEmployeeId());
+        Employee employee = employeeService.findById(form.getEmployeeId());
         form.setEmployeeName(employee.getName());
         redirectAttributes.addFlashAttribute("form", form);
         return "redirect:/admin/account/confirm";
@@ -86,7 +83,7 @@ public class AdminAccountController {
     public String confirmSubmit(@RequestParam String action, Model model,
             SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
 
-        AccountRegisterForm form = (AccountRegisterForm) model.getAttribute("form");
+        EmployeeAccountRegisterForm form = (EmployeeAccountRegisterForm) model.getAttribute("form");
 
         if ("back".equals(action)) {
             redirectAttributes.addFlashAttribute("form", form);
@@ -94,11 +91,7 @@ public class AdminAccountController {
         }
 
         // 登録処理
-        EmployeeAccount account = new EmployeeAccount();
-        account.setEmployeeId(form.getEmployeeId());
-        account.setName(form.getAccountName());
-        account.setPassword(form.getPassword());
-        employeeAccountService.register(account);
+        employeeAccountService.register(form);
 
         redirectAttributes.addFlashAttribute("form", form);
         sessionStatus.setComplete();

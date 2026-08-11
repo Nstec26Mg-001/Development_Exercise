@@ -9,19 +9,9 @@ public class EmployeeAccountMapperTestFactory {
     private List<EmployeeAccount> employeeAccounts;
 
     public EmployeeAccountMapperTestFactory() {
-        this.employeeAccounts = List.of(
-                new EmployeeAccount(
-                        1,
-                        1,
-                        "yamada.t",
-                        "hashed_pass_yamada_123",
-                        null),
-                new EmployeeAccount(
-                        2,
-                        3,
-                        "suzuki.i",
-                        "hashed_pass_suzuki_789",
-                        null));
+        this.employeeAccounts =
+                List.of(new EmployeeAccount(1, 1, "yamada.t", "hashed_pass_yamada_123"),
+                        new EmployeeAccount(2, 3, "suzuki.i", "hashed_pass_suzuki_789"));
     }
 
     public List<EmployeeAccount> createEmployeeAccountList() {
@@ -33,6 +23,6 @@ public class EmployeeAccountMapperTestFactory {
     }
 
     public EmployeeAccount createVoidEmployeeAccountEntity(int employeeId) {
-        return new EmployeeAccount(0, employeeId, null, null, null);
+        return new EmployeeAccount(0, employeeId, null, null);
     }
 }
