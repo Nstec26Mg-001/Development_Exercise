@@ -1,47 +1,52 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
 
-<header th:fragment="header" class="front-header py-3 mb-4">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <div class="d-flex align-items-center gap-3">
-            <a th:href="@{/}" class="brand">フルネス文具</a>
-            <a th:href="@{/products/search}" class="nav-link">商品検索</a>
-        </div>
-        <nav class="d-flex align-items-center gap-3">
-            <a th:href="@{/purchase/input}" class="nav-link cart-link">
-                買い物カゴ
-                <span class="badge bg-danger rounded-pill cart-badge" th:if="${cartCount > 0}" th:text="${cartCount}"></span>
-            </a>
-            <a th:if="${loggedIn}" th:href="@{/purchase/history}" class="nav-link">購入履歴</a>
-            <form th:if="${loggedIn}" th:action="@{/logout}" method="post" class="mb-0">
-                <button type="submit" class="btn btn-fs btn-sm" th:text="|ログアウト（${loginCustomerName}さん）|">ログアウト</button>
-            </form>
-            <a th:unless="${loggedIn}" th:href="@{/account/form}" class="nav-link">アカウント登録</a>
-            <a th:unless="${loggedIn}" th:href="@{/login}" class="btn btn-fs-solid btn-sm">ログイン</a>
-        </nav>
-    </div>
-</header>
-
-<footer th:fragment="footer" class="front-footer py-4">
-    <div class="container">
-        <p class="footer-title mb-2">フルネス文具</p>
-        <ul class="list-unstyled mb-2">
-            <li><a th:href="@{/}">»トップ</a></li>
-            <li th:unless="${loggedIn}"><a th:href="@{/account/form}">»アカウント登録</a></li>
-            <li th:unless="${loggedIn}"><a th:href="@{/login}">»ログイン</a></li>
-            <li><a th:href="@{/products/search}">»商品検索</a></li>
-            <li><a th:href="@{/purchase/input}">»買い物カゴ</a></li>
-            <li th:if="${loggedIn}"><a th:href="@{/purchase/history}">»購入履歴</a></li>
-            <li th:if="${loggedIn}">
-                <form th:action="@{/logout}" method="post" class="d-inline mb-0">
-                    <button type="submit" class="btn btn-link p-0 link-fs" th:text="|»ログアウト（${loginCustomerName}さん）|">»ログアウト</button>
+    <header th:fragment="header" class="front-header py-3 mb-4">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-3">
+                <a th:href="@{/}" class="brand">フルネス文具</a>
+                <a th:href="@{/products/search}" class="nav-link">商品検索</a>
+            </div>
+            <nav class="d-flex align-items-center gap-3">
+                <a th:href="@{/purchase/input}" class="nav-link cart-link">
+                    買い物カゴ
+                    <span class="badge bg-danger rounded-pill cart-badge" th:if="${cartCount > 0}"
+                        th:text="${cartCount}"></span>
+                </a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/purchase/history}" class="nav-link">購入履歴</a>
+                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="mb-0">
+                    <button type="submit" class="btn btn-fs btn-sm"
+                        th:text="|ログアウト（${loginCustomerName}さん）|">ログアウト</button>
                 </form>
-            </li>
-        </ul>
-        <p class="small mb-0 text-center">Fullness Stationery &copy; All rights reserved.</p>
-    </div>
-</footer>
+                <a sec:authorize="!isAuthenticated()" th:href="@{/account/form}" class="nav-link">アカウント登録</a>
+                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-fs-solid btn-sm">ログイン</a>
+            </nav>
+        </div>
+    </header>
+
+    <footer th:fragment="footer" class="front-footer py-4">
+        <div class="container">
+            <p class="footer-title mb-2">フルネス文具</p>
+            <ul class="list-unstyled mb-2">
+                <li><a th:href="@{/}">»トップ</a></li>
+                <li sec:authorize="!isAuthenticated()"><a th:href="@{/account/form}">»アカウント登録</a></li>
+                <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">»ログイン</a></li>
+                <li><a th:href="@{/products/search}">»商品検索</a></li>
+                <li><a th:href="@{/purchase/input}">»買い物カゴ</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/purchase/history}">»購入履歴</a></li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline mb-0">
+                        <button type="submit" class="btn btn-link p-0 link-fs"
+                            th:text="|»ログアウト（${loginCustomerName}さん）|">»ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+            <p class="small mb-0 text-center">Fullness Stationery &copy; All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
+
 </html>

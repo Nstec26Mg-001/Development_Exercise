@@ -29,10 +29,10 @@ public class SecurityConfig {
 
                 // ログインにかかわる情報 ↓↓↓ここから
                 .formLogin(login -> login
-                        // ログイン時のPOST先URL
-                        .loginProcessingUrl("/authenticate")
                         // ログイン画面表示URL
                         .loginPage("/admin/login")
+                        // Spring Securityの認証エンドポイント
+                        .loginProcessingUrl("/admin/authenticate")
                         // ログインフォームのユーザー名パラメータ
                         .usernameParameter("accountName")
                         // 認証成功時に表示するページURL
@@ -61,4 +61,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

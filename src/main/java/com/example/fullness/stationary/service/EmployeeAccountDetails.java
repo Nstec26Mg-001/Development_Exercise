@@ -12,7 +12,8 @@ public class EmployeeAccountDetails implements UserDetails {
 
     private final Collection<GrantedAuthority> authorites;
 
-    public EmployeeAccountDetails(EmployeeAccount account, Collection<GrantedAuthority> authorites) {
+    public EmployeeAccountDetails(EmployeeAccount account,
+            Collection<GrantedAuthority> authorites) {
         this.employeeAccount = account;
         this.authorites = authorites;
     }
@@ -33,7 +34,7 @@ public class EmployeeAccountDetails implements UserDetails {
     }
 
     public boolean isEnabled() {
-        return employeeAccount.getEnabled();
+        return true;
     }
 
     public boolean isAccountNonExpired() {

@@ -12,8 +12,9 @@ public class AdminMenuController {
 
     @GetMapping("/admin")
     public String menu(@AuthenticationPrincipal EmployeeAccountDetails userDetails, Model model) {
-        model.addAttribute("loggedIn", true);
-        model.addAttribute("loginEmployeeName", userDetails.getUsername());
+        if (userDetails != null) {
+            model.addAttribute("loginEmployeeName", userDetails.getUsername());
+        }
         return "admin/menu";
     }
 }

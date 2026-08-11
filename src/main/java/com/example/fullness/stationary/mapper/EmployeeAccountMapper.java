@@ -9,4 +9,6 @@ public interface EmployeeAccountMapper {
     public List<EmployeeAccount> selectAll();
 
     public EmployeeAccount selectByEmployeeAccountName(String employeeAccountName);
+
+    public void insert(EmployeeAccount employeeAccount);
 }
