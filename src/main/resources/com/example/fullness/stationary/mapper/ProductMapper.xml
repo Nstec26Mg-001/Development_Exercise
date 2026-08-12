@@ -67,6 +67,58 @@
         ]]>
     </select>
 
+    <select id="selectByCategoryId" resultMap="productWithCategoryResult">
+        <![CDATA[
+            select
+                product.id product_id
+                , product.product_category_id
+                , product.name product_name
+                , product.price product_price
+                , product.image_url product_image_url
+                , product.delete_flag product_delete_flag
+                , product_category.name product_category_name
+            from
+                product
+                inner join product_category
+                    on product.product_category_id = product_category.id
+            where
+                product.product_category_id = #{categoryId}
+            order by product_id
+            limit #{limit} offset #{offset}
+        ]]>
+    </select>
+
+    <select id="selectWithPagination" resultMap="productWithCategoryResult">
+        <![CDATA[
+            select
+                product.id product_id
+                , product.product_category_id
+                , product.name product_name
+                , product.price product_price
+                , product.image_url product_image_url
+                , product.delete_flag product_delete_flag
+                , product_category.name product_category_name
+            from
+                product
+                inner join product_category
+                    on product.product_category_id = product_category.id
+            order by product_id
+            limit #{limit} offset #{offset}
+        ]]>
+    </select>
+
+    <select id="countAll" resultType="int">
+        <![CDATA[
+            select count(*) from product
+        ]]>
+    </select>
+
+    <select id="countByCategoryId" resultType="int">
+        <![CDATA[
+            select count(*) from product where product_category_id = #{categoryId}
+        ]]>
+    </select>
+
     <insert id="insert" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
             insert into product (product_category_id, name, price, image_url, delete_flag)
