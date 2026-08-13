@@ -15,18 +15,20 @@ import lombok.NoArgsConstructor;
 @GroupSequence({Required.class, Length.class, CharType.class, EmployeeAccountRegisterForm.class})
 public class EmployeeAccountRegisterForm {
 
-    @NotNull(message = "社員名を選択してください。", groups = Required.class)
+    @NotNull(message = "{validation.required.employeeId}", groups = Required.class)
     private Integer employeeId;
 
     private String employeeName;
 
-    @NotBlank(message = "アカウント名を入力してください。", groups = Required.class)
-    @Size(min = 5, max = 20, message = "アカウント名は5〜20文字で入力してください。", groups = Length.class)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "アカウント名は半角英数字で入力してください。", groups = CharType.class)
+    @NotBlank(message = "{validation.required.accountName}", groups = Required.class)
+    @Size(min = 5, max = 20, message = "{validation.length.accountName}", groups = Length.class)
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "{validation.charType.accountName}",
+            groups = CharType.class)
     private String accountName;
 
-    @NotBlank(message = "パスワードを入力してください。", groups = Required.class)
-    @Size(min = 5, max = 20, message = "パスワードは5〜20文字で入力してください。", groups = Length.class)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "パスワードは半角英数字で入力してください。", groups = CharType.class)
+    @NotBlank(message = "{validation.required.password}", groups = Required.class)
+    @Size(min = 5, max = 20, message = "{validation.length.password}", groups = Length.class)
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "{validation.charType.password}",
+            groups = CharType.class)
     private String password;
 }

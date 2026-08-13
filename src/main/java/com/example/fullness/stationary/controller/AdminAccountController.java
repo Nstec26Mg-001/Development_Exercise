@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,9 @@ public class AdminAccountController {
     @Autowired
     private EmployeeAccountService employeeAccountService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping("/form")
     public String form(Model model) {
         if (!model.containsAttribute("accountForm")) {
@@ -55,7 +59,8 @@ public class AdminAccountController {
         // アカウント名重複チェック
         if (!bindingResult.hasFieldErrors("accountName") && form.getAccountName() != null
                 && employeeAccountService.existsByName(form.getAccountName())) {
-            errorMessages.add("そのアカウント名は既に使用されています。");
+            errorMessages
+                    .add(messageSource.getMessage("validation.duplicate.accountName", null, null));
         }
 
         if (!errorMessages.isEmpty()) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,9 @@ public class AdminCategoryController {
     @Autowired
     private ProductCategoryService productCategoryService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping("/add")
     public String form(Model model) {
         if (!model.containsAttribute("categoryForm")) {
@@ -48,7 +52,8 @@ public class AdminCategoryController {
 
         if (!bindingResult.hasFieldErrors("name") && form.getName() != null
                 && productCategoryService.existsByName(form.getName())) {
-            errorMessages.add("そのカテゴリ名は既に登録されています。");
+            errorMessages
+                    .add(messageSource.getMessage("validation.duplicate.categoryName", null, null));
         }
 
         if (!errorMessages.isEmpty()) {

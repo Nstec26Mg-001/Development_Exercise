@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @GroupSequence({Required.class, Length.class, ProductCategoryRegisterForm.class})
 public class ProductCategoryRegisterForm {
 
-    @NotBlank(message = "カテゴリ名を入力してください。", groups = Required.class)
-    @Size(min = 1, max = 30, message = "カテゴリ名は1〜30文字で入力してください。", groups = Length.class)
+    @NotBlank(message = "{validation.required.categoryName}", groups = Required.class)
+    @Size(min = 1, max = 30, message = "{validation.length.categoryName}", groups = Length.class)
     private String name;
 }
