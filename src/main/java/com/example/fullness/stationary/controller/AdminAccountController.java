@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/account")
-@SessionAttributes("form")
+@SessionAttributes("accountForm")
 public class AdminAccountController {
 
     @Autowired
@@ -35,15 +35,15 @@ public class AdminAccountController {
 
     @GetMapping("/form")
     public String form(Model model) {
-        if (!model.containsAttribute("form")) {
-            model.addAttribute("form", new EmployeeAccountRegisterForm());
+        if (!model.containsAttribute("accountForm")) {
+            model.addAttribute("accountForm", new EmployeeAccountRegisterForm());
         }
         model.addAttribute("employees", employeeService.findWithoutAccount());
         return "admin/account/form";
     }
 
     @PostMapping("/form")
-    public String formSubmit(@Valid @ModelAttribute("form") EmployeeAccountRegisterForm form,
+    public String formSubmit(@Valid @ModelAttribute("accountForm") EmployeeAccountRegisterForm form,
             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // アノテーションバリデーション
@@ -59,7 +59,7 @@ public class AdminAccountController {
         }
 
         if (!errorMessages.isEmpty()) {
-            redirectAttributes.addFlashAttribute("form", form);
+            redirectAttributes.addFlashAttribute("accountForm", form);
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
             return "redirect:/admin/account/form";
         }
@@ -67,13 +67,13 @@ public class AdminAccountController {
         // 社員名をセット
         Employee employee = employeeService.findById(form.getEmployeeId());
         form.setEmployeeName(employee.getName());
-        redirectAttributes.addFlashAttribute("form", form);
+        redirectAttributes.addFlashAttribute("accountForm", form);
         return "redirect:/admin/account/confirm";
     }
 
     @GetMapping("/confirm")
     public String confirm(Model model) {
-        if (!model.containsAttribute("form")) {
+        if (!model.containsAttribute("accountForm")) {
             return "redirect:/admin/account/form";
         }
         return "admin/account/confirm";
@@ -83,24 +83,25 @@ public class AdminAccountController {
     public String confirmSubmit(@RequestParam String action, Model model,
             SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
 
-        EmployeeAccountRegisterForm form = (EmployeeAccountRegisterForm) model.getAttribute("form");
+        EmployeeAccountRegisterForm form =
+                (EmployeeAccountRegisterForm) model.getAttribute("accountForm");
 
         if ("back".equals(action)) {
-            redirectAttributes.addFlashAttribute("form", form);
+            redirectAttributes.addFlashAttribute("accountForm", form);
             return "redirect:/admin/account/form";
         }
 
         // 登録処理
         employeeAccountService.register(form);
 
-        redirectAttributes.addFlashAttribute("form", form);
+        redirectAttributes.addFlashAttribute("accountForm", form);
         sessionStatus.setComplete();
         return "redirect:/admin/account/complete";
     }
 
     @GetMapping("/complete")
     public String complete(Model model) {
-        if (!model.containsAttribute("form")) {
+        if (!model.containsAttribute("accountForm")) {
             return "redirect:/admin/account/form";
         }
         return "admin/account/complete";
