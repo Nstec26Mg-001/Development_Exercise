@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fullness.stationary.controller.form.ProductRegisterForm;
 import com.example.fullness.stationary.entity.Product;
+import com.example.fullness.stationary.helper.ProductHelper;
 import com.example.fullness.stationary.mapper.ProductMapper;
 import com.example.fullness.stationary.service.ProductService;
 
@@ -16,6 +18,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private ProductHelper productHelper;
 
     @Override
     public List<Product> findAll() {
@@ -47,5 +52,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int countByCategoryId(int categoryId) {
         return productMapper.countByCategoryId(categoryId);
+    }
+
+    @Override
+    public void register(ProductRegisterForm form) {
+        Product product = productHelper.convertToEntity(form);
+        productMapper.insert(product);
     }
 }

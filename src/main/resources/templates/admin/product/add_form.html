@@ -23,19 +23,20 @@
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">商品名</label>
                     <div class="col-sm-8">
-                        <input type="text" name="name" class="form-control" th:value="${form.name}" maxlength="20">
+                        <input type="text" name="name" class="form-control" th:value="${addProductForm.name}"
+                            maxlength="20">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">単価</label>
                     <div class="col-sm-8">
-                        <input type="text" name="price" class="form-control" th:value="${form.price}">
+                        <input type="text" name="price" class="form-control" th:value="${addProductForm.price}">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">在庫数</label>
                     <div class="col-sm-8">
-                        <input type="text" name="stock" class="form-control" th:value="${form.stock}">
+                        <input type="text" name="stock" class="form-control" th:value="${addProductForm.stock}">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -44,7 +45,8 @@
                         <select name="categoryId" class="form-select">
                             <option value="">選択してください</option>
                             <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"
-                                th:selected="${form.categoryId != null and form.categoryId == cat.id}"></option>
+                                th:selected="${addProductForm.categoryId != null and addProductForm.categoryId == cat.id}">
+                            </option>
                         </select>
                     </div>
                 </div>

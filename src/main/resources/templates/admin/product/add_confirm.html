@@ -19,23 +19,24 @@
                 <tbody>
                     <tr>
                         <th class="w-25">商品名</th>
-                        <td th:text="${form.name}"></td>
+                        <td th:text="${addProductForm.name}"></td>
                     </tr>
                     <tr>
                         <th>単価</th>
-                        <td th:text="${form.price} + '円'"></td>
+                        <td th:text="${addProductForm.price} + '円'"></td>
                     </tr>
                     <tr>
                         <th>在庫数</th>
-                        <td th:text="${form.stock}"></td>
+                        <td th:text="${addProductForm.stock}"></td>
                     </tr>
                     <tr>
                         <th>商品カテゴリ</th>
-                        <td th:text="${form.categoryName}"></td>
+                        <td th:text="${addProductForm.categoryName}"></td>
                     </tr>
                 </tbody>
             </table>
-            <img th:src="@{${form.imagePath}}" th:alt="${form.name}" class="img-fluid mb-4" style="max-height: 160px;">
+            <img th:src="@{${addProductForm.imagePath}}" th:alt="${addProductForm.name}" class="img-fluid mb-4"
+                style="max-height: 160px;">
 
             <form th:action="@{/admin/product/add/confirm}" method="post">
                 <a th:href="@{/admin/product}" class="btn btn-link link-fs">キャンセル</a>

@@ -2,6 +2,7 @@ package com.example.fullness.stationary.service;
 
 import java.util.List;
 
+import com.example.fullness.stationary.controller.form.ProductRegisterForm;
 import com.example.fullness.stationary.entity.Product;
 
 public interface ProductService {
@@ -17,4 +18,6 @@ public interface ProductService {
     int countAll();
 
     int countByCategoryId(int categoryId);
+
+    void register(ProductRegisterForm form);
 }
